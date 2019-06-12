@@ -68,8 +68,8 @@ public class WXPayTests {
     @Test
     public void refund() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "938a22e734f643ce995d1e6db91c63ce");
-        reqData.put(WXPayConstant.outRefundNo, "938a22e734f643ce995d1e6db91c63ce");
+        reqData.put(WXPayConstant.outTradeNo, "71def6a33f55403090c36a9396a260bb");
+        reqData.put(WXPayConstant.outRefundNo, "71def6a33f55403090c36a9396a260bb");
         reqData.put(WXPayConstant.totalFee, "1");
         reqData.put(WXPayConstant.refundFee, "1");
         Map<String, String> map = wxPay.refund(reqData);

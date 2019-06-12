@@ -4,8 +4,8 @@ import com.github.wxpay.sdk.WXPayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class WXPayController {
 
     private static Logger logger = LoggerFactory.getLogger(WXPayController.class);
@@ -45,6 +45,7 @@ public class WXPayController {
             if (WXPayUtil.isSignatureValid(data, wxPayConfig.getKey(), wxPayConfig.getSignType())) {
                 map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeSuccess);
                 map.put(WXPayConstant.returnMsg, WXPayConstant.returnMsgOK);
+                logger.info(">>>>> SIGNATURE IS VALID");
                 // TODO 处理业务
 
             }
