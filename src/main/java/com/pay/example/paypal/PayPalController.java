@@ -31,12 +31,12 @@ public class PayPalController {
     private PayPalTrade payPalTrade;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @RequestMapping(value = "/payPal/createPayment", method = RequestMethod.POST)
-    public String createPayment(HttpServletRequest request){
+    public String createPayment(HttpServletRequest request) {
         Double shipping = 1.00;
         Double subtotal = 5.00;
         Double tax = 1.00;
@@ -50,13 +50,16 @@ public class PayPalController {
         items.add(item);
         itemList.setItems(items);
 
-        String successUrl = getRequestURl(request) +  PAYPAL_SUCCESS_URL;
-        String cancelUrl = getRequestURl(request) +  PAYPAL_CANCEL_URL;
+        String paymentMethod = PayPalConstant.PAYMENT_METHOD_paypal;
+        String paymentIntent = PayPalConstant.PAYMENT_INTENT_SALE;
+
+        String successUrl = getRequestURl(request) + PAYPAL_SUCCESS_URL;
+        String cancelUrl = getRequestURl(request) + PAYPAL_CANCEL_URL;
         try {
             Payment payment = payPalTrade.createPayment(shipping, subtotal, tax, currency, description, itemList,
-                    PaymentMethod.PAYPAL, PaymentIntent.SALE, successUrl, cancelUrl);
-            for(Links links : payment.getLinks()){
-                if(links.getRel().equals(APPROVAL_URL_REL)){
+                    paymentMethod, paymentIntent, successUrl, cancelUrl);
+            for (Links links : payment.getLinks()) {
+                if (links.getRel().equals(APPROVAL_URL_REL)) {
                     return "redirect:" + links.getHref();
                 }
             }
@@ -67,16 +70,16 @@ public class PayPalController {
     }
 
     @RequestMapping(value = PAYPAL_CANCEL_URL, method = RequestMethod.GET)
-    public String cancelPayment(){
+    public String cancelPayment() {
         return "cancel";
     }
 
     @RequestMapping(value = PAYPAL_SUCCESS_URL, method = RequestMethod.GET)
-    public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
-    	log.info("REQUEST_URL: {}", request.getRequestURL());
+    public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+        log.info("REQUEST_URL: {}", request.getRequestURL());
         try {
             Payment payment = payPalTrade.executePayment(paymentId, payerId);
-            if(payment.getState().equals(STATE_SUCCESS)){
+            if (payment.getState().equals(STATE_SUCCESS)) {
                 return "success";
             }
         } catch (PayPalRESTException e) {

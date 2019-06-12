@@ -18,7 +18,7 @@ public class PayPalTrade {
     private APIContext apiContext;
 
     public Payment createPayment(Double shipping, Double subtotal, Double tax, String currency, String description, ItemList itemList,
-                                 PaymentMethod method, PaymentIntent intent, String successUrl, String cancelUrl) throws PayPalRESTException{
+                                 String paymentMethod, String paymentIntent, String successUrl, String cancelUrl) throws PayPalRESTException{
         Details details = new Details();
         details.setShipping("" + shipping);
         details.setSubtotal("" + subtotal);
@@ -37,10 +37,10 @@ public class PayPalTrade {
         transactions.add(transaction);
 
         Payer payer = new Payer();
-        payer.setPaymentMethod(method.toString());
+        payer.setPaymentMethod(paymentMethod);
 
         Payment payment = new Payment();
-        payment.setIntent(intent.toString());
+        payment.setIntent(paymentIntent);
         payment.setPayer(payer);
         payment.setTransactions(transactions);
 

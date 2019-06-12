@@ -1,4 +1,4 @@
-package com.pay.example;
+package com.pay.example.util;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ public class EncryptorUtil {
         textEncryptor.setPassword(salt);
         logger.info(">>>>> {}: {}", encrypt, textEncryptor.decrypt(encrypt));
     }
+
 
     public static void main(String[] args) {
     }

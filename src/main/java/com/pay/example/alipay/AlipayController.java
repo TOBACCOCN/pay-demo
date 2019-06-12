@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class NotifyController {
+public class AlipayController {
 
-    private static Logger logger = LoggerFactory.getLogger(NotifyController.class);
+    private static Logger logger = LoggerFactory.getLogger(AlipayController.class);
 
     @Autowired
     private AlipayTrade alipayTrade;
