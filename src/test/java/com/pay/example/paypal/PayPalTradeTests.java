@@ -1,6 +1,5 @@
-package com.pay.example;
+package com.pay.example.paypal;
 
-import com.pay.example.paypal.PayPalTrade;
 import com.paypal.api.payments.DetailedRefund;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentHistory;
@@ -26,26 +25,26 @@ public class PayPalTradeTests {
     @Test
     public void getPayment() throws PayPalRESTException {
         Payment payment = payPalTrade.getPayment("PAYID-LTXZBXA1LX695496U1097253");
-        logger.info(">>>>> payment: {}", payment);
+        logger.info(">>>>> PAYMENT: {}", payment);
     }
 
     @Test
     public void getPaymentHistory() throws PayPalRESTException {
         PaymentHistory paymentHistory = payPalTrade.getPaymentHistory("10");
-        logger.info(">>>>> paymentHistory: {}", paymentHistory);
+        logger.info(">>>>> PAYMENT_HISTORY: {}", paymentHistory);
     }
 
     @Test
     public void getSale() throws PayPalRESTException {
         Sale sale = payPalTrade.getSale("51783015WJ5447923");
-        logger.info(">>>>> sale: {}", sale);
+        logger.info(">>>>> SALE: {}", sale);
     }
 
     @Test
     public void refundPayment() throws PayPalRESTException {
         // 每次退款请修改 id，并将 currency 和 total 替换成对应的值
         DetailedRefund detailedRefund = payPalTrade.refundPayment("57C253130N2657817", "USD", "7.00");
-        logger.info(">>>>> detailedRefund: {}", detailedRefund);
+        logger.info(">>>>> DETAILED_REFUND: {}", detailedRefund);
     }
 
 }

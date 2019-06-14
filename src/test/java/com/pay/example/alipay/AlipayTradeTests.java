@@ -1,10 +1,8 @@
-package com.pay.example;
+package com.pay.example.alipay;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.*;
 import com.alipay.api.response.*;
-import com.pay.example.alipay.AlipayConfig;
-import com.pay.example.alipay.AlipayTrade;
 import com.pay.example.util.QRCodeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +26,7 @@ public class AlipayTradeTests {
     private AlipayTrade alipayTrade;
 
     @Test
-    public void tradePrecreate() throws AlipayApiException {
+    public void tradePrecreate() throws Exception {
         AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
         model.setSubject("支付宝扫码支付测试");
         model.setTotalAmount("0.01");
@@ -42,8 +40,7 @@ public class AlipayTradeTests {
         // QR_CODE：当前预下单请求生成的二维码码串，可以用二维码生成工具根据该码串值生成对应的二维码
         logger.info("QR_CODE: {}", response.getQrCode());
 
-        QRCodeUtil.encode(response.getQrCode(), 258, 258,
-                "png", "D:\\" + outTradeNo + ".png");
+        QRCodeUtil.encode(response.getQrCode(), 258, 258, "D:\\" + outTradeNo + ".png", "png");
     }
 
     @Test

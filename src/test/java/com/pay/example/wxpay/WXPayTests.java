@@ -1,9 +1,7 @@
-package com.pay.example;
+package com.pay.example.wxpay;
 
 import com.github.wxpay.sdk.WXPay;
 import com.pay.example.util.QRCodeUtil;
-import com.pay.example.wxpay.WXPayConfig;
-import com.pay.example.wxpay.WXPayConstant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -59,7 +57,7 @@ public class WXPayTests {
     @Test
     public void closeOrder() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "23ec2a06d5b54da2a7f84f9aa4aab37a");
+        reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.closeOrder(reqData);
         logger.info(">>>>> RESPONSE: {}", map);
     }
