@@ -28,7 +28,7 @@ public class WXPayController {
     @PostMapping("/wxpay/notify")
     public void doNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> map = new HashMap<>();
-        map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeSuccess);
+        map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeFailed);
         map.put(WXPayConstant.returnMsg, "");
         try {
             InputStream inputStream = request.getInputStream();
@@ -46,6 +46,7 @@ public class WXPayController {
                 map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeSuccess);
                 map.put(WXPayConstant.returnMsg, WXPayConstant.returnMsgOK);
                 logger.info(">>>>> SIGNATURE IS VALID");
+
                 // TODO 处理业务
 
             }

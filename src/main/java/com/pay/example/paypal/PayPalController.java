@@ -25,7 +25,7 @@ public class PayPalController {
     private static final String APPROVAL_URL_REL = "approval_url";
     private static final String STATE_SUCCESS = "approved";
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PayPalTrade payPalTrade;
@@ -64,7 +64,7 @@ public class PayPalController {
                 }
             }
         } catch (PayPalRESTException e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/";
     }
@@ -76,14 +76,14 @@ public class PayPalController {
 
     @RequestMapping(value = PAYPAL_SUCCESS_URL, method = RequestMethod.GET)
     public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
-        log.info("REQUEST_URL: {}", request.getRequestURL());
+        logger.info("REQUEST_URL: {}", request.getRequestURL());
         try {
             Payment payment = payPalTrade.executePayment(paymentId, payerId);
             if (payment.getState().equals(STATE_SUCCESS)) {
                 return "success";
             }
         } catch (PayPalRESTException e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/";
     }

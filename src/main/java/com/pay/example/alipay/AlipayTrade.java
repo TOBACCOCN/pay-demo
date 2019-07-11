@@ -7,7 +7,7 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.*;
 import com.alipay.api.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.22
  */
-@Configuration
+@Component
 public class AlipayTrade {
 
     @Autowired

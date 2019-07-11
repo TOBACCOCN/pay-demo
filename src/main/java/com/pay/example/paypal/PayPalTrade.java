@@ -3,8 +3,10 @@ package com.pay.example.paypal;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +19,10 @@ import java.util.Map;
  * @author zhangyonghong
  * @date 2019.6.22
  */
-@Configuration
+@Component
 public class PayPalTrade {
+
+    private static Logger logger = LoggerFactory.getLogger(PayPalTrade.class);
 
     @Autowired
     private APIContext apiContext;
@@ -70,7 +74,11 @@ public class PayPalTrade {
         redirectUrls.setCancelUrl(cancelUrl);
         payment.setRedirectUrls(redirectUrls);
 
-        return payment.create(apiContext);
+        long start = System.currentTimeMillis();
+        payment = payment.create(apiContext);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> CREATE PAYMENT, COST: {} ms", end - start);
+        return payment;
     }
 
     /**
@@ -85,7 +93,12 @@ public class PayPalTrade {
         payment.setId(paymentId);
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
-        return payment.execute(apiContext, paymentExecute);
+
+        long start = System.currentTimeMillis();
+        payment = payment.execute(apiContext, paymentExecute);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> EXECUTE PAYMENT, COST: {} ms", end - start);
+        return payment;
     }
 
     /**
@@ -95,7 +108,11 @@ public class PayPalTrade {
      * @return 付款对象
      */
     public Payment getPayment(String paymentId) throws PayPalRESTException {
-        return Payment.get(apiContext, paymentId);
+        long start = System.currentTimeMillis();
+        Payment payment = Payment.get(apiContext, paymentId);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> GET PAYMENT, COST: {} ms", end - start);
+        return payment;
     }
 
     /**
@@ -107,7 +124,12 @@ public class PayPalTrade {
     public PaymentHistory getPaymentHistory(String count) throws PayPalRESTException {
         Map<String, String> containerMap = new HashMap<>();
         containerMap.put("count", count);
-        return Payment.list(apiContext, containerMap);
+
+        long start = System.currentTimeMillis();
+        PaymentHistory paymentHistory = Payment.list(apiContext, containerMap);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> GET PAYMENT HISTORY, COST: {} ms", end - start);
+        return paymentHistory;
     }
 
     /**
@@ -118,7 +140,11 @@ public class PayPalTrade {
      * @return 销售对象
      */
     public Sale getSale(String saleId) throws PayPalRESTException {
-        return Sale.get(apiContext, saleId);
+        long start = System.currentTimeMillis();
+        Sale sale = Sale.get(apiContext, saleId);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> GET SALE, COST: {} ms", end - start);
+        return sale;
     }
 
     /**
@@ -139,6 +165,10 @@ public class PayPalTrade {
         amount.setTotal(total);
         refund.setAmount(amount);
 
-        return sale.refund(apiContext, refund);
+        long start = System.currentTimeMillis();
+        DetailedRefund detailedRefund = sale.refund(apiContext, refund);
+        long end = System.currentTimeMillis();
+        logger.info(">>>>> REFUND PAYMENT, COST: {} ms", end - start);
+        return detailedRefund;
     }
 }
