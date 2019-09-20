@@ -26,8 +26,8 @@ import java.util.List;
 @Slf4j
 public class PayPalController {
 
-    private static final String PAYPAL_SUCCESS_URL = "/payPal/executePayment";
-    private static final String PAYPAL_CANCEL_URL = "/payPal/cancelPayment";
+    private static final String PAYPAL_SUCCESS_URL = "/paypal/executePayment";
+    private static final String PAYPAL_CANCEL_URL = "/paypal/cancelPayment";
     private static final String APPROVAL_URL_REL = "approval_url";
     private static final String STATE_SUCCESS = "approved";
 
@@ -41,7 +41,13 @@ public class PayPalController {
         return "index";
     }
 
-    @RequestMapping(value = "/payPal/createPayment", method = RequestMethod.POST)
+    /**
+     * 创建付款
+     *
+     * @param request 请求对象
+     * @return 付款地址
+     */
+    @RequestMapping(value = "/paypal/createPayment", method = RequestMethod.POST)
     public String createPayment(HttpServletRequest request) {
         Double shipping = 1.00;
         Double subtotal = 5.00;
@@ -80,8 +86,17 @@ public class PayPalController {
         return "cancel";
     }
 
+    /**
+     * 执行付款
+     *
+     * @param request   请求对象
+     * @param paymentId 付款 ID
+     * @param payerId   付款人 ID
+     * @return 付款结果页面
+     */
     @RequestMapping(value = PAYPAL_SUCCESS_URL, method = RequestMethod.GET)
-    public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+    public String executePayment(HttpServletRequest request,
+                                 @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
         log.info(">>>>> REQUEST_URL: {}", request.getRequestURL());
         try {
             Payment payment = payPalTrade.executePayment(paymentId, payerId);
