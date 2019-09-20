@@ -2,10 +2,9 @@ package com.pay.example.wxpay;
 
 import com.github.wxpay.sdk.WXPay;
 import com.pay.example.util.QRCodeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,11 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
+/**
+ * 微信支付单元测试
+ *
+ * @author zhangyonghong
+ * @date 2019.6.12
+ */
 @SpringBootTest
+@RunWith(SpringRunner.class)
+@Slf4j
 public class WXPayTests {
 
-    private static Logger logger = LoggerFactory.getLogger(WXPayTests.class);
+    // private static Logger logger = LoggerFactory.getLogger(WXPayTests.class);
 
     @Autowired
     private WXPay wxPay;
@@ -32,13 +38,13 @@ public class WXPayTests {
         reqData.put(WXPayConstant.body, "Ground Coffee 40 oz * 1");
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         reqData.put(WXPayConstant.outTradeNo, uuid);
-        logger.info(">>>>> OUT_TRADE_NO: {}", uuid);
+        log.info(">>>>> OUT_TRADE_NO: {}", uuid);
         reqData.put(WXPayConstant.totalFee, "1");
         reqData.put(WXPayConstant.spbillCreateIp, "127.0.0.1");
         reqData.put(WXPayConstant.notifyUrl, wxPayConfig.getNotifyUrl());
         reqData.put(WXPayConstant.tradeType, WXPayConstant.tradeTypeNative);
         Map<String, String> map = wxPay.unifiedOrder(reqData);
-        logger.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: {}", map);
 
         QRCodeUtil.encode(map.get(WXPayConstant.codeUrl), 258, 258,
                 "png", "D:\\" + uuid + ".png");
@@ -50,7 +56,7 @@ public class WXPayTests {
         Map<String, String> reqData = new HashMap<>();
         reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.orderQuery(reqData);
-        logger.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: {}", map);
     }
 
     // 关闭订单 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_3
@@ -59,7 +65,7 @@ public class WXPayTests {
         Map<String, String> reqData = new HashMap<>();
         reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.closeOrder(reqData);
-        logger.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: {}", map);
     }
 
     // 申请退款 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_4
@@ -71,7 +77,7 @@ public class WXPayTests {
         reqData.put(WXPayConstant.totalFee, "1");
         reqData.put(WXPayConstant.refundFee, "1");
         Map<String, String> map = wxPay.refund(reqData);
-        logger.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: {}", map);
     }
 
     // 查询退款 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_5
@@ -80,7 +86,7 @@ public class WXPayTests {
         Map<String, String> reqData = new HashMap<>();
         reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.refundQuery(reqData);
-        logger.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: {}", map);
     }
 
 }

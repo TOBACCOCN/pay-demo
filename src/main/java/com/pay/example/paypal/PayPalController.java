@@ -5,8 +5,7 @@ import com.paypal.api.payments.ItemList;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * paypal 控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.12
+ */
 @Controller
+@Slf4j
 public class PayPalController {
 
     private static final String PAYPAL_SUCCESS_URL = "/payPal/executePayment";
@@ -25,7 +31,7 @@ public class PayPalController {
     private static final String APPROVAL_URL_REL = "approval_url";
     private static final String STATE_SUCCESS = "approved";
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    // private static Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PayPalTrade payPalTrade;
@@ -64,7 +70,7 @@ public class PayPalController {
                 }
             }
         } catch (PayPalRESTException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return "redirect:/";
     }
@@ -76,14 +82,14 @@ public class PayPalController {
 
     @RequestMapping(value = PAYPAL_SUCCESS_URL, method = RequestMethod.GET)
     public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
-        logger.info("REQUEST_URL: {}", request.getRequestURL());
+        log.info(">>>>> REQUEST_URL: {}", request.getRequestURL());
         try {
             Payment payment = payPalTrade.executePayment(paymentId, payerId);
             if (payment.getState().equals(STATE_SUCCESS)) {
                 return "success";
             }
         } catch (PayPalRESTException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return "redirect:/";
     }

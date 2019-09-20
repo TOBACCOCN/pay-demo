@@ -37,7 +37,7 @@ public class AlipayTrade {
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         // 设置业务参数
         request.setBizModel(model);
-        request.setNotifyUrl(alipayConfig.notifyUrl);
+        request.setNotifyUrl(alipayConfig.getNotifyUrl());
         // 通过 alipayClient 调用 API，获得对应的 response 类
         return alipayClient.execute(request);
     }
@@ -50,8 +50,8 @@ public class AlipayTrade {
      */
     public boolean rsaCheck(Map<String, String> map) throws AlipayApiException {
         // //调用 SDK 验证签名
-        return AlipaySignature.rsaCheckV1(map, alipayConfig.alipayPublicKey, alipayConfig.charset,
-                alipayConfig.signType);
+        return AlipaySignature.rsaCheckV1(map, alipayConfig.getAlipayPublicKey(), alipayConfig.getCharset(),
+                alipayConfig.getSignType());
     }
 
     /**

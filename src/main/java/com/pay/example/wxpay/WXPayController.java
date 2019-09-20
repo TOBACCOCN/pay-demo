@@ -1,8 +1,7 @@
 package com.pay.example.wxpay;
 
 import com.github.wxpay.sdk.WXPayUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,14 +16,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 微信支付控制器
+ *
+ * @author zhangyonghong
+ * @date 2019.6.12
+ */
 @Controller
+@Slf4j
 public class WXPayController {
 
-    private static Logger logger = LoggerFactory.getLogger(WXPayController.class);
+    // private static Logger logger = LoggerFactory.getLogger(WXPayController.class);
 
     @Autowired
     private WXPayConfig wxPayConfig;
 
+    /**
+     * 接收微信支付服务器关于用户支付结果的通知
+     *
+     * @param request  请求对象
+     * @param response 响应对象
+     */
     @PostMapping("/wxpay/notify")
     public void doNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> map = new HashMap<>();
@@ -39,13 +51,13 @@ public class WXPayController {
                 baos.write(buffer, 0, len);
             }
             String xml = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-            logger.info(">>>>> REQUEST_XML: {}", xml);
+            log.info(">>>>> REQUEST_XML: {}", xml);
 
             Map<String, String> data = WXPayUtil.xmlToMap(xml);
             if (WXPayUtil.isSignatureValid(data, wxPayConfig.getKey(), wxPayConfig.getSignType())) {
                 map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeSuccess);
                 map.put(WXPayConstant.returnMsg, WXPayConstant.returnMsgOK);
-                logger.info(">>>>> SIGNATURE IS VALID");
+                log.info(">>>>> SIGNATURE IS VALID");
 
                 // TODO 处理业务
 
@@ -53,7 +65,7 @@ public class WXPayController {
         } catch (Exception e) {
             StringWriter stringWriter = new StringWriter();
             e.printStackTrace(new PrintWriter(stringWriter, true));
-            logger.error(stringWriter.toString());
+            log.error(stringWriter.toString());
         } finally {
             response.getWriter().write(WXPayUtil.mapToXml(map));
         }

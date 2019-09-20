@@ -3,8 +3,7 @@ package com.pay.example.paypal;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +19,10 @@ import java.util.Map;
  * @date 2019.6.22
  */
 @Component
+@Slf4j
 public class PayPalTrade {
 
-    private static Logger logger = LoggerFactory.getLogger(PayPalTrade.class);
+    // private static Logger logger = LoggerFactory.getLogger(PayPalTrade.class);
 
     @Autowired
     private APIContext apiContext;
@@ -77,7 +77,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         payment = payment.create(apiContext);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> CREATE PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> CREATE PAYMENT, COST: {} ms", end - start);
         return payment;
     }
 
@@ -97,7 +97,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         payment = payment.execute(apiContext, paymentExecute);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> EXECUTE PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> EXECUTE PAYMENT, COST: {} ms", end - start);
         return payment;
     }
 
@@ -111,7 +111,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         Payment payment = Payment.get(apiContext, paymentId);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> GET PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> GET PAYMENT, COST: {} ms", end - start);
         return payment;
     }
 
@@ -128,7 +128,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         PaymentHistory paymentHistory = Payment.list(apiContext, containerMap);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> GET PAYMENT HISTORY, COST: {} ms", end - start);
+        log.info(">>>>> GET PAYMENT HISTORY, COST: {} ms", end - start);
         return paymentHistory;
     }
 
@@ -143,7 +143,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         Sale sale = Sale.get(apiContext, saleId);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> GET SALE, COST: {} ms", end - start);
+        log.info(">>>>> GET SALE, COST: {} ms", end - start);
         return sale;
     }
 
@@ -168,7 +168,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         DetailedRefund detailedRefund = sale.refund(apiContext, refund);
         long end = System.currentTimeMillis();
-        logger.info(">>>>> REFUND PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> REFUND PAYMENT, COST: {} ms", end - start);
         return detailedRefund;
     }
 }

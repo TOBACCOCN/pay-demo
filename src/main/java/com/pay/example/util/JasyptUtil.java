@@ -3,7 +3,7 @@ package com.pay.example.util;
 import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
- * Jasypt 加解密工具类
+ * Jasypt 配置文件属性加解密工具类
  *
  * @author zhangyonghong
  * @date 2019.6.14
