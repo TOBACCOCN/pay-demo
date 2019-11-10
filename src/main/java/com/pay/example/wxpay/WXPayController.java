@@ -33,6 +33,8 @@ public class WXPayController {
 
     /**
      * 接收微信支付服务器关于用户支付结果的通知
+     * 微信服务器发送过来的是 POST（text/xml）请求
+     * https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8
      *
      * @param request  请求对象
      * @param response 响应对象
@@ -40,8 +42,8 @@ public class WXPayController {
     @PostMapping("/wxpay/notify")
     public void doNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> map = new HashMap<>();
-        map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeFailed);
-        map.put(WXPayConstant.returnMsg, "");
+        map.put(WXPayConstant.RETURN_CODE, WXPayConstant.RETURN_CODE_FAIL);
+        map.put(WXPayConstant.RETURN_MSG, WXPayConstant.RETURN_MSG_FAIL);
         try {
             InputStream inputStream = request.getInputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -51,12 +53,12 @@ public class WXPayController {
                 baos.write(buffer, 0, len);
             }
             String xml = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-            log.info(">>>>> REQUEST_XML: {}", xml);
+            log.info(">>>>> REQUEST_XML: [{}]", xml);
 
             Map<String, String> data = WXPayUtil.xmlToMap(xml);
             if (WXPayUtil.isSignatureValid(data, wxPayConfig.getKey(), wxPayConfig.getSignType())) {
-                map.put(WXPayConstant.returnCode, WXPayConstant.returnCodeSuccess);
-                map.put(WXPayConstant.returnMsg, WXPayConstant.returnMsgOK);
+                map.put(WXPayConstant.RETURN_CODE, WXPayConstant.RETURN_CODE_SUCCESS);
+                map.put(WXPayConstant.RETURN_MSG, WXPayConstant.RETURN_MSG_OK);
                 log.info(">>>>> SIGNATURE IS VALID");
 
                 // TODO 处理业务

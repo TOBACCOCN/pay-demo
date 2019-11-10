@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @Slf4j
-public class PayPalController {
+public class PaypalController {
 
     private static final String PAYPAL_SUCCESS_URL = "/paypal/executePayment";
     private static final String PAYPAL_CANCEL_URL = "/paypal/cancelPayment";
@@ -34,7 +34,7 @@ public class PayPalController {
     // private static Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private PayPalTrade payPalTrade;
+    private PaypalTrade paypalTrade;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
@@ -62,13 +62,13 @@ public class PayPalController {
         items.add(item);
         itemList.setItems(items);
 
-        String paymentMethod = PayPalConstant.PAYMENT_METHOD_paypal;
-        String paymentIntent = PayPalConstant.PAYMENT_INTENT_SALE;
+        String paymentMethod = PaypalConstant.PAYMENT_METHOD_PAYPAL;
+        String paymentIntent = PaypalConstant.PAYMENT_INTENT_SALE;
 
         String successUrl = getRequestURl(request) + PAYPAL_SUCCESS_URL;
         String cancelUrl = getRequestURl(request) + PAYPAL_CANCEL_URL;
         try {
-            Payment payment = payPalTrade.createPayment(shipping, subtotal, tax, currency, description, itemList,
+            Payment payment = paypalTrade.createPayment(shipping, subtotal, tax, currency, description, itemList,
                     paymentMethod, paymentIntent, successUrl, cancelUrl);
             for (Links links : payment.getLinks()) {
                 if (links.getRel().equals(APPROVAL_URL_REL)) {
@@ -95,11 +95,11 @@ public class PayPalController {
      * @return 付款结果页面
      */
     @RequestMapping(value = PAYPAL_SUCCESS_URL, method = RequestMethod.GET)
-    public String executePayment(HttpServletRequest request,
-                                 @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
-        log.info(">>>>> REQUEST_URL: {}", request.getRequestURL());
+    public String executePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
+                                 @RequestParam("PayerID") String payerId) {
+        log.info(">>>>> REQUEST_URL: [{}]", request.getRequestURL());
         try {
-            Payment payment = payPalTrade.executePayment(paymentId, payerId);
+            Payment payment = paypalTrade.executePayment(paymentId, payerId);
             if (payment.getState().equals(STATE_SUCCESS)) {
                 return "success";
             }

@@ -23,15 +23,15 @@ public class AlipayConfig {
     // serverUrl, appId, privateKey, format, charset, alipayPublicKey, signType
     // 支付宝网关
     private String serverUrl;
-    // 应用ID，您的APPID，收款账号即是您的APPID对应支付宝账号
+    // 应用 ID，您的 APPID，收款账号即是您的 APPID 对应支付宝账号
     private String appId;
-    // 商户私钥，您的PKCS8格式RSA2私钥
+    // 商户私钥，您的 PKCS8 格式 RSA2 私钥
     private String privateKey;
     // 字符串格式
     private String format;
     // 编码格式
     private String charset;
-    // 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥
+    // 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应 APPID 下的支付宝公钥
     private String alipayPublicKey;
     // 签名方式
     private String signType;

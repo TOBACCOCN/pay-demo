@@ -31,62 +31,67 @@ public class WXPayTests {
     @Autowired
     private WXPayConfig wxPayConfig;
 
-    // 统一下单 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
+    // 统一下单
+    // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
     @Test
     public void unifiedOrder() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.body, "Ground Coffee 40 oz * 1");
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        reqData.put(WXPayConstant.outTradeNo, uuid);
-        log.info(">>>>> OUT_TRADE_NO: {}", uuid);
-        reqData.put(WXPayConstant.totalFee, "1");
-        reqData.put(WXPayConstant.spbillCreateIp, "127.0.0.1");
-        reqData.put(WXPayConstant.notifyUrl, wxPayConfig.getNotifyUrl());
-        reqData.put(WXPayConstant.tradeType, WXPayConstant.tradeTypeNative);
+        log.info(">>>>> OUT_TRADE_NO: [{}]", uuid);
+        reqData.put(WXPayConstant.OUT_TRADE_NO, uuid);
+        reqData.put(WXPayConstant.TOTAL_FEE, "1");
+        reqData.put(WXPayConstant.BODY, "Ground Coffee 40 oz * 1");
+        reqData.put(WXPayConstant.SPBILL_CREATE_IP, "127.0.0.1");
+        reqData.put(WXPayConstant.NOTIFY_URL, wxPayConfig.getNotifyUrl());
+        reqData.put(WXPayConstant.TRADE_TYPE, WXPayConstant.TRADE_TYPE_NATIVE);
         Map<String, String> map = wxPay.unifiedOrder(reqData);
-        log.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: [{}]", map);
 
-        QRCodeUtil.encode(map.get(WXPayConstant.codeUrl), 258, 258,
+        QRCodeUtil.encode(map.get(WXPayConstant.CODE_URL), 258, 258,
                 "png", "D:\\" + uuid + ".png");
     }
 
-    // 查询订单 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_2
+    // 查询订单
+    // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_2
     @Test
     public void orderQuery() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
+        reqData.put(WXPayConstant.OUT_TRADE_NO, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.orderQuery(reqData);
-        log.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: [{}]", map);
     }
 
-    // 关闭订单 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_3
+    // 关闭订单
+    // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_3
     @Test
     public void closeOrder() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
+        reqData.put(WXPayConstant.OUT_TRADE_NO, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.closeOrder(reqData);
-        log.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: [{}]", map);
     }
 
-    // 申请退款 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_4
+    // 申请退款
+    // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_4
     @Test
     public void refund() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "71def6a33f55403090c36a9396a260bb");
-        reqData.put(WXPayConstant.outRefundNo, "71def6a33f55403090c36a9396a260bb");
-        reqData.put(WXPayConstant.totalFee, "1");
-        reqData.put(WXPayConstant.refundFee, "1");
+        reqData.put(WXPayConstant.OUT_TRADE_NO, "71def6a33f55403090c36a9396a260bb");
+        reqData.put(WXPayConstant.OUT_REFUND_NO, "71def6a33f55403090c36a9396a260bb");
+        reqData.put(WXPayConstant.TOTAL_FEE, "1");
+        reqData.put(WXPayConstant.REFUND_FEE, "1");
         Map<String, String> map = wxPay.refund(reqData);
-        log.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: [{}]", map);
     }
 
-    // 查询退款 https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_5
+    // 查询退款
+    // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_5
     @Test
     public void refundQuery() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        reqData.put(WXPayConstant.outTradeNo, "21a4b60d6e534b3ea865b554b3297f6a");
+        reqData.put(WXPayConstant.OUT_TRADE_NO, "21a4b60d6e534b3ea865b554b3297f6a");
         Map<String, String> map = wxPay.refundQuery(reqData);
-        log.info(">>>>> RESPONSE: {}", map);
+        log.info(">>>>> RESPONSE: [{}]", map);
     }
 
 }

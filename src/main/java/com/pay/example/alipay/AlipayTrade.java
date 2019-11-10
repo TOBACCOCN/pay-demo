@@ -43,7 +43,8 @@ public class AlipayTrade {
     }
 
     /**
-     * rsaCheck 验签 https://docs.open.alipay.com/194/105322/
+     * rsaCheck 验签
+     * https://docs.open.alipay.com/194/105322/
      *
      * @param map 验签参数 map
      * @return 验签成功返回 true，验签失败返回 false
@@ -55,7 +56,8 @@ public class AlipayTrade {
     }
 
     /**
-     * tradeQuery 交易查询 https://docs.open.alipay.com/api_1/alipay.trade.query/
+     * tradeQuery 交易查询
+     * https://docs.open.alipay.com/api_1/alipay.trade.query/
      *
      * @param model 交易查询对象
      * @return 交易查询响应对象
@@ -70,7 +72,8 @@ public class AlipayTrade {
     }
 
     /**
-     * tradeCancel 交易撤销 https://docs.open.alipay.com/api_1/alipay.trade.cancel/
+     * tradeCancel 交易撤销
+     * https://docs.open.alipay.com/api_1/alipay.trade.cancel/
      *
      * @param model 交易撤销对象
      * @return 交易撤销响应对象
@@ -85,7 +88,8 @@ public class AlipayTrade {
     }
 
     /**
-     * tradeRefund 交易退款 https://docs.open.alipay.com/api_1/alipay.trade.refund/
+     * tradeRefund 交易退款
+     * https://docs.open.alipay.com/api_1/alipay.trade.refund/
      *
      * @param model 交易退款对象
      * @return 交易退款响应对象

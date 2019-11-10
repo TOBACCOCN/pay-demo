@@ -17,7 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:pay.properties")
 @ConfigurationProperties(prefix = "paypal")
 @Data
-public class PayPalConfig {
+public class PaypalConfig {
 
     private String clientId;
     private String clientSecret;

@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class PayPalTrade {
+public class PaypalTrade {
 
     // private static Logger logger = LoggerFactory.getLogger(PayPalTrade.class);
 
@@ -28,7 +28,8 @@ public class PayPalTrade {
     private APIContext apiContext;
 
     /**
-     * 创建付款 https://developer.paypal.com/docs/api/quickstart/payments/#create-payment
+     * 创建付款
+     * https://developer.paypal.com/docs/api/quickstart/payments/#create-payment
      *
      * @param shipping      邮费
      * @param subtotal      商品总价
@@ -77,12 +78,13 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         payment = payment.create(apiContext);
         long end = System.currentTimeMillis();
-        log.info(">>>>> CREATE PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> CREATE PAYMENT, COST: [{}] MS", end - start);
         return payment;
     }
 
     /**
-     * 执行付款 https://developer.paypal.com/docs/api/quickstart/payments/#execute-payment
+     * 执行付款
+     * https://developer.paypal.com/docs/api/quickstart/payments/#execute-payment
      *
      * @param paymentId 付款 ID
      * @param payerId   付款人 ID
@@ -91,18 +93,19 @@ public class PayPalTrade {
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setId(paymentId);
-        PaymentExecution paymentExecute = new PaymentExecution();
-        paymentExecute.setPayerId(payerId);
+        PaymentExecution paymentExecution = new PaymentExecution();
+        paymentExecution.setPayerId(payerId);
 
         long start = System.currentTimeMillis();
-        payment = payment.execute(apiContext, paymentExecute);
+        payment = payment.execute(apiContext, paymentExecution);
         long end = System.currentTimeMillis();
-        log.info(">>>>> EXECUTE PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> EXECUTE PAYMENT, COST: [{}] MS", end - start);
         return payment;
     }
 
     /**
-     * 查询付款 https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetPaymentServlet.java
+     * 查询付款
+     * https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetPaymentServlet.java
      *
      * @param paymentId 付款 ID
      * @return 付款对象
@@ -111,15 +114,16 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         Payment payment = Payment.get(apiContext, paymentId);
         long end = System.currentTimeMillis();
-        log.info(">>>>> GET PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> GET PAYMENT, COST: [{}] MS", end - start);
         return payment;
     }
 
     /**
-     * 查询历史付款 https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetPaymentHistoryServlet.java
+     * 查询历史付款
+     * https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetPaymentHistoryServlet.java
      *
      * @param count 付款数据数量
-     * @return 付款对象
+     * @return 历史付款对象
      */
     public PaymentHistory getPaymentHistory(String count) throws PayPalRESTException {
         Map<String, String> containerMap = new HashMap<>();
@@ -128,12 +132,13 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         PaymentHistory paymentHistory = Payment.list(apiContext, containerMap);
         long end = System.currentTimeMillis();
-        log.info(">>>>> GET PAYMENT HISTORY, COST: {} ms", end - start);
+        log.info(">>>>> GET PAYMENT HISTORY, COST: [{}] MS", end - start);
         return paymentHistory;
     }
 
     /**
-     * 查询交易 https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetSaleServlet.java
+     * 查询交易
+     * https://github.com/paypal/PayPal-Java-SDK/blob/master/rest-api-sample/src/main/java/com/paypal/api/payments/servlet/GetSaleServlet.java
      * 付款成功后会返回交易对象，交易对象包含交易 ID
      *
      * @param saleId 交易 ID
@@ -143,19 +148,20 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         Sale sale = Sale.get(apiContext, saleId);
         long end = System.currentTimeMillis();
-        log.info(">>>>> GET SALE, COST: {} ms", end - start);
+        log.info(">>>>> GET SALE, COST: [{}] MS", end - start);
         return sale;
     }
 
     /**
-     * 退款 https://developer.paypal.com/docs/api/quickstart/refund-payment/#
+     * 退款
+     * https://developer.paypal.com/docs/api/quickstart/refund-payment/#
      *
      * @param id       交易 ID
      * @param currency 货币类型
      * @param total    退款金额
      * @return 退款详情
      */
-    public DetailedRefund refundPayment(String id, String currency, String total) throws PayPalRESTException {
+    public DetailedRefund refund(String id, String currency, String total) throws PayPalRESTException {
         Sale sale = new Sale();
         sale.setId(id);
 
@@ -168,7 +174,7 @@ public class PayPalTrade {
         long start = System.currentTimeMillis();
         DetailedRefund detailedRefund = sale.refund(apiContext, refund);
         long end = System.currentTimeMillis();
-        log.info(">>>>> REFUND PAYMENT, COST: {} ms", end - start);
+        log.info(">>>>> REFUND PAYMENT, COST: [{}] MS", end - start);
         return detailedRefund;
     }
 }

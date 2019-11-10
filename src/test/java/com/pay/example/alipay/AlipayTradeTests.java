@@ -39,14 +39,15 @@ public class AlipayTradeTests {
         model.setStoreId(alipayConfig.getStoreId());
         model.setTimeoutExpress("5m");
         String outTradeNo = UUID.randomUUID().toString().replace("-", "");
-        log.info(">>>>> OUT_TRADE_NO: {}", outTradeNo);
+        log.info(">>>>> OUT_TRADE_NO: [{}]", outTradeNo);
         model.setOutTradeNo(outTradeNo);
         AlipayTradePrecreateResponse response = alipayTrade.tradePrecreate(model);
-        log.info(">>>>> RESPONSE_BODY: {}", response.getBody());
+        log.info(">>>>> RESPONSE_BODY: [{}]", response.getBody());
         // QR_CODE：当前预下单请求生成的二维码码串，可以用二维码生成工具根据该码串值生成对应的二维码
-        log.info(">>>>> QR_CODE: {}", response.getQrCode());
+        log.info(">>>>> QR_CODE: [{}]", response.getQrCode());
 
-        QRCodeUtil.encode(response.getQrCode(), 258, 258, "D:\\" + outTradeNo + ".png", "png");
+        QRCodeUtil.encode(response.getQrCode(), 258, 258,
+                "D:\\" + outTradeNo + ".png", "png");
     }
 
     @Test
@@ -54,11 +55,11 @@ public class AlipayTradeTests {
         AlipayTradeQueryModel model = new AlipayTradeQueryModel();
         model.setOutTradeNo("b31267bbb4c54d07a179caff73e164d4");
         AlipayTradeQueryResponse response = alipayTrade.tradeQuery(model);
-        log.info(">>>>> RESPONSE_BODY: {}", response.getBody());
+        log.info(">>>>> RESPONSE_BODY: [{}]", response.getBody());
         // TRADE_STATUS
         // 交易状态：WAIT_BUYER_PAY（交易创建，等待买家付款）、TRADE_CLOSED（未付款交易超时关闭，或支付完成后全额退款）、
         // TRADE_SUCCESS（交易支付成功）、TRADE_FINISHED（交易结束，不可退款）
-        log.info(">>>>> TRADE_STATUS: {}", response.getTradeStatus());
+        log.info(">>>>> TRADE_STATUS: [{}]", response.getTradeStatus());
     }
 
     @Test
@@ -66,9 +67,9 @@ public class AlipayTradeTests {
         AlipayTradeCancelModel model = new AlipayTradeCancelModel();
         model.setOutTradeNo("80ba8696c3d04ee3b8d65dbd57512446");
         AlipayTradeCancelResponse response = alipayTrade.tradeCancel(model);
-        log.info(">>>>> RESPONSE_BODY: {}", response.getBody());
+        log.info(">>>>> RESPONSE_BODY: [{}]", response.getBody());
         // ACTION：本次撤销触发的交易动作（close：关闭交易，无退款；refund：产生了退款）
-        log.info(">>>>> ACTION: {}", response.getAction());
+        log.info(">>>>> ACTION: [{}]", response.getAction());
     }
 
     @Test
@@ -77,7 +78,7 @@ public class AlipayTradeTests {
         model.setOutTradeNo("80ba8696c3d04ee3b8d65dbd57512446");
         model.setRefundAmount("0.01");
         AlipayTradeRefundResponse response = alipayTrade.tradeRefund(model);
-        log.info(">>>>> RESPONSE_BODY: {}", response.getBody());
+        log.info(">>>>> RESPONSE_BODY: [{}]", response.getBody());
         // 异常示例
         //		{
         //		    "alipay_trade_refund_response": {
@@ -88,7 +89,7 @@ public class AlipayTradeTests {
         //		    },
         //		    "sign": "ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE"
         //		}
-        log.info(">>>>> OUT_TRADE_NO: {}", response.getOutTradeNo());
+        log.info(">>>>> OUT_TRADE_NO: [{}]", response.getOutTradeNo());
     }
 
     @Test
@@ -97,7 +98,7 @@ public class AlipayTradeTests {
         model.setOutTradeNo("80ba8696c3d04ee3b8d65dbd57512446");
         model.setOutRequestNo("80ba8696c3d04ee3b8d65dbd57512446");
         AlipayTradeFastpayRefundQueryResponse response = alipayTrade.tradeRefundQuery(model);
-        log.info(">>>>> RESPONSE_BODY: {}", response.getBody());
+        log.info(">>>>> RESPONSE_BODY: [{}]", response.getBody());
         // 查询到数据即为退款成功
         // 异常示例
         //		{
@@ -109,7 +110,7 @@ public class AlipayTradeTests {
         //		    },
         //		    "sign": "ERITJKEIJKJHKKKKKKKHJEREEEEEEEEEEE"
         //		}
-        log.info(">>>>> OUT_TRADE_NO: {}", response.getOutTradeNo());
+        log.info(">>>>> OUT_TRADE_NO: [{}]", response.getOutTradeNo());
     }
 
 }

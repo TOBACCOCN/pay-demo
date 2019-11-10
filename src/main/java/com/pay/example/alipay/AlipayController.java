@@ -30,12 +30,15 @@ public class AlipayController {
     @PostMapping("/alipay/hello")
     public Object hello(HttpServletRequest request) {
         Map<String, String> map = getMap(request.getParameterMap());
-        log.info(">>>>> PARAM_MAP: {}", map);
+        log.info(">>>>> PARAM_MAP: [{}]", map);
         return map;
     }
 
     /**
      * 接收支付宝服务器关于用户支付结果的通知
+     * 支付宝服务器发送过来的是 POST（application/x-www-form-urlencoded）请求，参数是拼接在 url 后面的
+     * https://docs.open.alipay.com/194/103296/
+     * https://docs.open.alipay.com/194/105322/
      *
      * @param request  请求对象
      * @param response 响应对象
@@ -43,7 +46,7 @@ public class AlipayController {
     @PostMapping("/alipay/notify")
     public void doNotify(HttpServletRequest request, HttpServletResponse response) throws IOException, AlipayApiException {
         Map<String, String> map = getMap(request.getParameterMap());
-        log.info(">>>>> NOTIFY_PARAM_MAP: {}", map);
+        log.info(">>>>> NOTIFY_PARAM_MAP: [{}]", map);
         if (alipayTrade.rsaCheck(map)) {
             response.getWriter().write("success");
             log.info(">>>>> CHECK_SIGN SUCCESS");
