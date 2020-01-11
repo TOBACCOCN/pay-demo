@@ -35,6 +35,8 @@ public class AlipayConfig {
     private String alipayPublicKey;
     // 签名方式
     private String signType;
+    // 该笔订单允许的最晚付款时间，逾期将关闭交易
+    private String timeoutExpress;
     // 支付后回调地址
     private String notifyUrl;
     // 商户 ID

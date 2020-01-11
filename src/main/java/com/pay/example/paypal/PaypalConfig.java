@@ -22,6 +22,8 @@ public class PaypalConfig {
     private String clientId;
     private String clientSecret;
     private String mode;
+    private String returnUrl;
+    private String cancelUrl;
 
     @Bean
     public APIContext apiContext() {

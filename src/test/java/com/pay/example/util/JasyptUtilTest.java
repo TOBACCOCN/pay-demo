@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j
-public class JasyptUtilTests {
+public class JasyptUtilTest {
 
     // private static Logger logger = LoggerFactory.getLogger(JasyptUtilTests.class);
 

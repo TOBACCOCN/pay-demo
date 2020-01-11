@@ -22,7 +22,7 @@ import java.util.UUID;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j
-public class WXPayTests {
+public class WXPayTest {
 
     // private static Logger logger = LoggerFactory.getLogger(WXPayTests.class);
 
@@ -36,9 +36,8 @@ public class WXPayTests {
     @Test
     public void unifiedOrder() throws Exception {
         Map<String, String> reqData = new HashMap<>();
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        log.info(">>>>> OUT_TRADE_NO: [{}]", uuid);
-        reqData.put(WXPayConstant.OUT_TRADE_NO, uuid);
+        String outTradeNo = UUID.randomUUID().toString().replaceAll("-", "");
+        reqData.put(WXPayConstant.OUT_TRADE_NO, outTradeNo);
         reqData.put(WXPayConstant.TOTAL_FEE, "1");
         reqData.put(WXPayConstant.BODY, "Ground Coffee 40 oz * 1");
         reqData.put(WXPayConstant.SPBILL_CREATE_IP, "127.0.0.1");
@@ -48,7 +47,7 @@ public class WXPayTests {
         log.info(">>>>> RESPONSE: [{}]", map);
 
         QRCodeUtil.encode(map.get(WXPayConstant.CODE_URL), 258, 258,
-                "png", "D:\\" + uuid + ".png");
+                "png", "D:\\" + outTradeNo + ".png");
     }
 
     // 查询订单
