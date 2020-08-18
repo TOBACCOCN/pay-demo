@@ -36,7 +36,7 @@ public class AlipayController {
 
     /**
      * 接收支付宝服务器关于用户支付结果的通知
-     * 支付宝服务器发送过来的是 POST（application/x-www-form-urlencoded）请求，参数是拼接在 url 后面的
+     * 支付宝服务器发送过来的是 POST（application/x-www-form-urlencoded）请求
      * https://docs.open.alipay.com/194/103296/
      * https://docs.open.alipay.com/194/105322/
      *
